@@ -2,7 +2,8 @@ package pl.sda.trivia.api;
 
 public enum Type {
     MULTIPLE_CHOICE("multiple"),
-    TRUE_FALSE("boolean");
+    TRUE_FALSE("boolean"),
+    ANY("");
 
     private final String queryValue;
 

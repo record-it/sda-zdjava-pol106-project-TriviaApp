@@ -3,7 +3,8 @@ package pl.sda.trivia.api;
 public enum Difficulty {
     EASY,
     MEDIUM,
-    HARD;
+    HARD,
+    ANY;
 
     @Override
     public String toString() {

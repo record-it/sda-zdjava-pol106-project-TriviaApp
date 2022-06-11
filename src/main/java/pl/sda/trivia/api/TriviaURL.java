@@ -22,16 +22,16 @@ public class TriviaURL {
     public URI getURL(){
         RequestQuery.Builder builder = RequestQuery.builder()
                 .addParameter("amount", amount);
-        if (category != null) {
+        if (category != null && category != Category.ANY) {
             builder.addParameter("category", category.getId());
         }
-        if (type != null){
+        if (type != null && type != Type.ANY){
             builder.addParameter("type", type);
         }
-        if(difficulty != null){
+        if(difficulty != null && difficulty != Difficulty.ANY){
             builder.addParameter("difficulty", difficulty);
         }
-        if (encode != null){
+        if (encode != null && encode != Encoding.DEFAULT){
             builder.addParameter("encode", encode);
         }
         return URI.create(TRIVIA_HOST+"?"+builder.query());
