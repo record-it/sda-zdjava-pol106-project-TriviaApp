@@ -8,5 +8,5 @@ import java.util.List;
 @Data
 public class TriviaCategory {
     @JsonProperty("trivia_categories")
-    private List<CategoryItem> triviaCategories;
+    private List<Category> triviaCategories;
 }

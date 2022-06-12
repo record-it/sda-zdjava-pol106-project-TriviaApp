@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
+import pl.sda.trivia.api.Category;
 import pl.sda.trivia.api.Difficulty;
 import pl.sda.trivia.api.TriviaURL;
 import pl.sda.trivia.api.Type;
@@ -26,17 +27,21 @@ public class TriviaAPIQuizRepository implements QuizRepository {
     private HttpClient client = HttpClient.newHttpClient();
 
     @Override
-    public List<Quiz> findQuizByDifficultyAndType(int amount, Difficulty difficulty, Type type) {
+    public List<Quiz> findQuizByDifficultyAndTypeAndCategory(int amount, Difficulty difficulty, Type type, Category category) {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(TriviaURL.builder()
                         .amount(amount)
                         .difficulty(difficulty)
                         .type(type)
+                        .category(category)
                         .build()
                         .getURL()
                 )
                 .build();
+        return getQuizzes(request);
+    }
+    private List<Quiz> getQuizzes(HttpRequest request) {
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             log.info(response.request().toString());
@@ -44,20 +49,20 @@ public class TriviaAPIQuizRepository implements QuizRepository {
             TriviaResponse triviaResponse = mapper.readValue(response.body(), TriviaResponse.class);
             triviaResponse.setResults(
                     triviaResponse.getResults().stream()
-                    .map(quiz -> Quiz.builder()
-                            .difficulty(quiz.getDifficulty())
-                            .type(quiz.getType())
-                            .category(quiz.getCategory())
-                            .correctAnswer(Jsoup.parse(quiz.getCorrectAnswer()).text())
-                            .question(Jsoup.parse(quiz.getQuestion()).text())
-                            .incorrectAnswers(
-                                    quiz.getIncorrectAnswers()
-                                            .stream()
-                                            .map(answer -> Jsoup.parse(answer).text())
-                                            .collect(Collectors.toList())
-                            )
-                            .build()
-                    ).collect(Collectors.toList())
+                            .map(quiz -> Quiz.builder()
+                                    .difficulty(quiz.getDifficulty())
+                                    .type(quiz.getType())
+                                    .category(quiz.getCategory())
+                                    .correctAnswer(Jsoup.parse(quiz.getCorrectAnswer()).text())
+                                    .question(Jsoup.parse(quiz.getQuestion()).text())
+                                    .incorrectAnswers(
+                                            quiz.getIncorrectAnswers()
+                                                    .stream()
+                                                    .map(answer -> Jsoup.parse(answer).text())
+                                                    .collect(Collectors.toList())
+                                    )
+                                    .build()
+                            ).collect(Collectors.toList())
             );
             return triviaResponse.getResults();
         } catch (JsonMappingException e) {

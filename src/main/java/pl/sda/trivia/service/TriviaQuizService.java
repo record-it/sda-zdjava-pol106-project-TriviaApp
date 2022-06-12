@@ -1,5 +1,6 @@
 package pl.sda.trivia.service;
 
+import pl.sda.trivia.api.Category;
 import pl.sda.trivia.api.Difficulty;
 import pl.sda.trivia.api.Type;
 import pl.sda.trivia.model.QuizToComplete;
@@ -19,8 +20,8 @@ public class TriviaQuizService implements QuizService {
     }
 
     @Override
-    public Set<QuizToComplete> findQuizSet(int amount, Difficulty difficulty, Type type) {
-        return quizRepository.findQuizByDifficultyAndType(amount, difficulty, type)
+    public Set<QuizToComplete> findQuizSet(int amount, Difficulty difficulty, Type type, Category category) {
+        return quizRepository.findQuizByDifficultyAndTypeAndCategory(amount, difficulty, type, category)
                 .stream()
                 .map(quiz -> {
                             List<String> options = new ArrayList<>(quiz.getIncorrectAnswers());

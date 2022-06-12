@@ -1,9 +1,9 @@
 package pl.sda.trivia.repository;
 
-import pl.sda.trivia.api.CategoryItem;
+import pl.sda.trivia.api.Category;
 
 import java.util.List;
 
 public interface CategoryRepository {
-    List<CategoryItem> findAll();
+    List<Category> findAll();
 }

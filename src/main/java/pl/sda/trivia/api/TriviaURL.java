@@ -22,7 +22,7 @@ public class TriviaURL {
     public URI getURL(){
         RequestQuery.Builder builder = RequestQuery.builder()
                 .addParameter("amount", amount);
-        if (category != null && category != Category.ANY) {
+        if (category != null) {
             builder.addParameter("category", category.getId());
         }
         if (type != null && type != Type.ANY){

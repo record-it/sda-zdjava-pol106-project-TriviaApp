@@ -1,9 +1,8 @@
 package pl.sda.trivia.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pl.sda.trivia.api.CategoryItem;
+import pl.sda.trivia.api.Category;
 import pl.sda.trivia.api.TriviaCategory;
-import pl.sda.trivia.api.TriviaURL;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,7 +14,7 @@ import java.util.List;
 public class TriviaCategoryRepository implements CategoryRepository{
     private HttpClient client = HttpClient.newHttpClient();
     @Override
-    public List<CategoryItem> findAll() {
+    public List<Category> findAll() {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .GET()

@@ -1,13 +1,16 @@
 package pl.sda.trivia;
 
+import pl.sda.trivia.api.Category;
 import pl.sda.trivia.api.Difficulty;
 import pl.sda.trivia.api.Type;
 import pl.sda.trivia.error.DataFormatException;
 import pl.sda.trivia.error.DataNotAvailableException;
 import pl.sda.trivia.model.Quiz;
 import pl.sda.trivia.model.QuizToComplete;
+import pl.sda.trivia.repository.CategoryRepository;
 import pl.sda.trivia.repository.QuizRepository;
 import pl.sda.trivia.repository.TriviaAPIQuizRepository;
+import pl.sda.trivia.repository.TriviaCategoryRepository;
 import pl.sda.trivia.service.QuizService;
 import pl.sda.trivia.service.TriviaQuizService;
 
@@ -15,16 +18,27 @@ import java.util.*;
 
 public class TriviaAppConsole {
     static private final QuizRepository quizRepo = new TriviaAPIQuizRepository();
+    static private final CategoryRepository categoryRepo = new TriviaCategoryRepository();
     //wstrzyknięcie zależności
     static private final QuizService quizService = new TriviaQuizService(quizRepo);
     static private final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
+        //TODO: dopisz fragment, w którym użytkownik może wybierać
+        //kategorię: jedna z listy kategorii lub dowolna
+        //poziom trudności: łatwy, średni, trudny lub dowolny
+        //typ pytań: wielokrotny, prawda/fałsz lub dowolny
+        //liczbę pytań: od 1 do 50
+        //TODO: dopisz możliwość powtarzania całego cyklu
+        List<Category> categories = categoryRepo.findAll();
+        Random random = new Random();
+        int index = random.nextInt(categories.size());
         Set<QuizToComplete> quizzes;
         try {
              quizzes = quizService.findQuizSet(
                     5,
-                    Difficulty.ANY,
-                    Type.MULTIPLE_CHOICE
+                     Difficulty.ANY,
+                     Type.ANY,
+                     categories.get(index)
             );
         } catch (DataNotAvailableException e){
             System.out.println(e.getMessage());
