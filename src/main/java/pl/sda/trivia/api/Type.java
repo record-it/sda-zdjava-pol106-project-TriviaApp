@@ -1,7 +1,11 @@
 package pl.sda.trivia.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Type {
+    @JsonProperty("multiple")
     MULTIPLE_CHOICE("multiple"),
+    @JsonProperty("boolean")
     TRUE_FALSE("boolean"),
     ANY("");
 

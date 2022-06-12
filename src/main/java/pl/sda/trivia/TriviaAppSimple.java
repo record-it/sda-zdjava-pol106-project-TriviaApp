@@ -1,5 +1,6 @@
 package pl.sda.trivia;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jsoup.Jsoup;
 import pl.sda.trivia.api.Difficulty;
 import pl.sda.trivia.api.TriviaURL;
 import pl.sda.trivia.model.Quiz;
@@ -23,10 +24,11 @@ public class TriviaAppSimple {
                 .build();
         HttpClient client = HttpClient.newHttpClient();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        //deserializacja z JSON na obiekt klasy
         ObjectMapper mapper = new ObjectMapper();
         TriviaResponse triviaResponse = mapper.readValue(response.body(), TriviaResponse.class);
         Quiz quiz = triviaResponse.getResults().get(0);
-        System.out.println(quiz.getQuestion());
+        System.out.println(Jsoup.parse(quiz.getQuestion()).text());
         List<String> options = new ArrayList<>(quiz.getIncorrectAnswers());
         options.add(quiz.getCorrectAnswer());
         Collections.shuffle(options);
