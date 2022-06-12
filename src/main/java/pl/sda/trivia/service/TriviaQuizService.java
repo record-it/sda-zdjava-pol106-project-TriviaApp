@@ -39,6 +39,17 @@ public class TriviaQuizService implements QuizService {
     @Override
     public int evaluateQuizSet(Set<QuizToComplete> quizzes) {
         //TODO: zaimplementuj metodę zliczająca liczbę poprawnych odpowiedzi.
-        return 0;
+        return (int) quizzes
+                .stream()
+                .filter(quiz -> quiz.getCorrectAnswer().equals(quiz.getAnswer()))
+                .count();
+
+//        int points = 0;
+//        for (var quiz: quizzes) {
+//            if (quiz.getCorrectAnswer().equals(quiz.getAnswer())){
+//                points++;
+//            }
+//        }
+//        return points;
     }
 }

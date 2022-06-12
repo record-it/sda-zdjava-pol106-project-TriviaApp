@@ -28,6 +28,7 @@ public class TriviaAppConsole {
             );
         } catch (DataNotAvailableException e){
             System.out.println(e.getMessage());
+            System.out.println("Aplikacja nie może działać!");
             return;
         } catch (DataFormatException e){
             System.out.println(e.getMessage());
@@ -47,12 +48,15 @@ public class TriviaAppConsole {
                     }
                     break;
                 case "2":
+                    //warunek
                     quizToComplete.setAnswer(quizToComplete.getOptions().get(1));
                     break;
                 case "3":
+                    //warunek
                     quizToComplete.setAnswer(quizToComplete.getOptions().get(2));
                     break;
                 case "4":
+                    //warunek
                     quizToComplete.setAnswer(quizToComplete.getOptions().get(3));
                     break;
                 case "N":
@@ -71,6 +75,8 @@ public class TriviaAppConsole {
         }
         int points = quizService.evaluateQuizSet(new HashSet<>(list));
         System.out.println("Zdobyłeś punktów: " + points);
+        System.out.println("Twoje i poprawne odpowiedzi");
+        showQuizzesResults(list);
     }
 
     //Zdefiniuj metodę screenTemplate, aby pobierała dane z quiz
@@ -89,6 +95,28 @@ public class TriviaAppConsole {
             count++;
         }
         System.out.println("Menu: odpowiedź: 1, 2, 3 ,4 lub 1, 2; następne pytanie: N; poprzednie: P; koniec: K");
+    }
 
+    static void showQuizzesResults(List<QuizToComplete> quizzes){
+        for (var quiz: quizzes) {
+            System.out.println(quiz.getQuestion());
+            System.out.println("-".repeat(quiz.getQuestion().length()));
+            int count = 1;
+            for (var option : quiz.getOptions()) {
+                if (option.equals(quiz.getAnswer()) && option.equals(quiz.getCorrectAnswer())) {
+                    System.out.println(count + ". [x] " + option);
+                } else
+                if (option.equals(quiz.getAnswer())){
+                    System.out.println(count + ". [-] " + option);
+                } else
+                if (option.equals(quiz.getCorrectAnswer())){
+                    System.out.println(count + ". [*] " + option);
+                }
+                else {
+                    System.out.println(count + ". [ ] " + option);
+                }
+                count++;
+            }
+        }
     }
 }
