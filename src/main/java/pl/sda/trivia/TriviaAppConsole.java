@@ -5,12 +5,8 @@ import pl.sda.trivia.api.Difficulty;
 import pl.sda.trivia.api.Type;
 import pl.sda.trivia.error.DataFormatException;
 import pl.sda.trivia.error.DataNotAvailableException;
-import pl.sda.trivia.model.Quiz;
 import pl.sda.trivia.model.QuizToComplete;
-import pl.sda.trivia.repository.CategoryRepository;
-import pl.sda.trivia.repository.QuizRepository;
-import pl.sda.trivia.repository.TriviaAPIQuizRepository;
-import pl.sda.trivia.repository.TriviaCategoryRepository;
+import pl.sda.trivia.repository.*;
 import pl.sda.trivia.service.QuizService;
 import pl.sda.trivia.service.TriviaQuizService;
 
@@ -20,7 +16,8 @@ public class TriviaAppConsole {
     static private final QuizRepository quizRepo = new TriviaAPIQuizRepository();
     static private final CategoryRepository categoryRepo = new TriviaCategoryRepository();
     //wstrzyknięcie zależności
-    static private final QuizService quizService = new TriviaQuizService(quizRepo);
+    static private final QuizCompleteRepositoryJpa quizCompleteRepository = new QuizCompleteRepositoryJpa();
+    static private final QuizService quizService = new TriviaQuizService(quizRepo, quizCompleteRepository);
     static private final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         //TODO: dopisz fragment, w którym użytkownik może wybierać
